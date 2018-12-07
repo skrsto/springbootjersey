@@ -1,16 +1,16 @@
 package com.example.demo.model;
 
-public class SavedToDoItem
+public class SavedTodoItem
 {
     private String title;
     private String url;
     private Boolean completed;
 
-    public SavedToDoItem()
+    public SavedTodoItem()
     {
     }
 
-    public SavedToDoItem(String title, String url, Boolean completed)
+    public SavedTodoItem(String title, String url, Boolean completed)
     {
         this.title = title;
         this.url = url;
@@ -48,9 +48,31 @@ public class SavedToDoItem
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SavedTodoItem that = (SavedTodoItem) o;
+
+        if (!getTitle().equals(that.getTitle())) return false;
+        if (!getUrl().equals(that.getUrl())) return false;
+        return getCompleted().equals(that.getCompleted());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = getTitle().hashCode();
+        result = 31 * result + getUrl().hashCode();
+        result = 31 * result + getCompleted().hashCode();
+        return result;
+    }
+
+    @Override
     public String toString()
     {
-        return "SavedToDoItem{" +
+        return "SavedTodoItem{" +
                 "title='" + title + '\'' +
                 ", url='" + url + '\'' +
                 ", completed=" + completed +

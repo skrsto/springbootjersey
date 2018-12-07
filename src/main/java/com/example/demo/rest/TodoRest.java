@@ -13,11 +13,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.example.demo.model.SavedTodoItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.dao.TodoDao;
 import com.example.demo.dao.TodoItemRecord;
-import com.example.demo.model.SavedToDoItem;
 import com.example.demo.model.TodoItem;
 
 @Path(TodoRest.TODO)
@@ -31,12 +31,12 @@ public class TodoRest
 
     @GET
     @Produces("application/json")
-    public List<SavedToDoItem> getAll()
+    public List<SavedTodoItem> getAll()
     {
         return todoDao.getAll()
                 .entrySet()
                 .parallelStream()
-                .map(p -> new SavedToDoItem(p.getValue().getTitle(), getUrl(p.getKey()), p.getValue().isCompleted()))
+                .map(p -> new SavedTodoItem(p.getValue().getTitle(), getUrl(p.getKey()), p.getValue().isCompleted()))
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +56,7 @@ public class TodoRest
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
         }
         return Response.status(Response.Status.OK.getStatusCode())
-                .entity(new SavedToDoItem(todoItemRecord.getTitle(), getUrl(id), todoItemRecord.isCompleted()))
+                .entity(new SavedTodoItem(todoItemRecord.getTitle(), getUrl(id), todoItemRecord.isCompleted()))
                 .build();
     }
 
@@ -67,7 +67,7 @@ public class TodoRest
     {
         TodoItemRecord todoItemRecord = new TodoItemRecord(todoItem.getTitle(), false);
         String id = todoDao.add(todoItemRecord);
-        SavedToDoItem savedToDoItem = new SavedToDoItem(todoItemRecord.getTitle(), getUrl(id), todoItemRecord.isCompleted());
+        SavedTodoItem savedToDoItem = new SavedTodoItem(todoItemRecord.getTitle(), getUrl(id), todoItemRecord.isCompleted());
         return Response.status(Response.Status.CREATED).entity(savedToDoItem).build();
     }
 
@@ -81,7 +81,7 @@ public class TodoRest
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
         else
             return Response.status(Response.Status.OK.getStatusCode())
-                    .entity(new SavedToDoItem(todoItemRecord.getTitle(), getUrl(id), todoItemRecord.isCompleted()))
+                    .entity(new SavedTodoItem(todoItemRecord.getTitle(), getUrl(id), todoItemRecord.isCompleted()))
                     .build();
     }
 
